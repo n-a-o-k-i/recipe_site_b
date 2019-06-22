@@ -1,0 +1,98 @@
+<div class="container">
+	<div class="row mb-5">
+		<div class="col-md-6">
+			<div class="recipe-img-area">
+				<img src="" alt="">
+			</div>
+		</div>
+
+		<div class="col-md-6">
+			<div class="recipe-form">
+				<%= form_for @recipe, url: '/api/v1/recipes' do |r| %>
+				<div class="row">
+					<p class="col-md-4">料理名</p><%= r.text_field :title , class: "col-md-8" %>
+				</div>
+				<div class="row">
+					<p class="col-md-4">video_url</p><%= r.text_field :video_url , class: "col-md-8" %>
+				</div>
+				<div class="row">
+					<p class="col-md-4">thumbnail_url</p><%= r.text_field :thumbnail_url , class: "col-md-8" %>
+				</div>
+				<div class="row">
+					<p class="col-md-4">何人前</p><%= r.text_field :servings , class: "col-md-8" %>
+				</div>
+				<div class="row">
+					<p class="col-md-4">塩分量</p><%= r.text_field :salt , class: "col-md-8" %>
+				</div>
+				<div class="row">
+					<p class="col-md-4">カロリー</p><%= r.text_field :calorie , class: "col-md-8" %>
+				</div>
+				<div class="row">
+					<p class="col-md-4">紹介</p><%= r.text_field :introduction , class: "col-md-8" %>
+				</div>
+				<div class="row">
+					<p class="col-md-4">オススメ</p><%= r.text_field :boosted , class: "col-md-8" %>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="recipe-detail-form-group">
+		<div class="row">
+			<div class="col-md-6">
+				<div class="recipe-ingredient-form">
+					<p>材料</p><%= r.nested_fields_for :ingredients, url: '/api/v1/recipes', wrapper_tag: :row do |ingredient| %>
+					<div class="row">
+						<p class="col-md-2 text-left">順番</p><%= ingredient.text_field :sort_order, class: "col-md-8" %>
+					</div>
+					<div class="row">
+						<p class="col-md-2 text-left">材料名</p><%= ingredient.text_field :name, class: "col-md-8" %>
+					</div>
+					<div class="row">
+						<p class="col-md-2 text-left">分量</p><%= ingredient.text_field :quantity_and_unit, class: "col-md-8" %>
+					</div>
+					<%= ingredient.remove_nested_fields_link 'Delete', class: 'btn btn-danger', role: 'button' %>
+					<% end %>
+					<%= r.add_nested_fields_link :ingredients, 'Add new', class: 'btn btn-primary', role: 'button' %>
+				</div>
+			</div>
+
+			<div class="col-md-6">
+				<div class="recipe-instructions-form">
+					<p>調理手順</p><%= r.nested_fields_for :instructions, url: '/api/v1/recipes', wrapper_tag: :row do |instruction| %>
+					<div class="row">
+						<p class="col-md-2 text-left">順序番号</p><%= instruction.text_field :sort_order , class: "col-md-8" %>
+					</div>
+					<div class="row">
+						<p class="col-md-2 text-left">手順詳細</p><%= instruction.text_field :body , class: "col-md-8" %>
+					</div>
+					<%= instruction.remove_nested_fields_link 'Delete', class: 'btn btn-danger', role: 'button' %>
+					<% end %>
+					<%= r.add_nested_fields_link :instructions, 'Add new', class: 'btn btn-primary', role: 'button' %>
+				</div>
+			</div>
+		</div>
+
+		<div class="submit-btn">
+			<input type="submit" class="col-md-4">
+			<% end %>
+		</div>
+
+	</div>
+</div>
+
+<style>
+form {
+	width: 100%;
+}
+
+.recipe-detail-form-group {
+	width: 100%;
+}
+
+.submit-btn {
+	padding-top: 50px;
+	text-align: center;
+}
+
+</style>
