@@ -20,8 +20,8 @@
 #
 
 class Recipe < ApplicationRecord
-  has_many :ingredients, dependent: :destroy
-  has_many :instructions, dependent: :destroy
+  has_many :ingredients, -> { order(sort_order: :asc) }, dependent: :destroy
+  has_many :instructions, -> { order(sort_order: :asc) }, dependent: :destroy
   accepts_nested_attributes_for :ingredients
   accepts_nested_attributes_for :instructions
 end

@@ -41,33 +41,41 @@
 		<div class="row">
 			<div class="col-md-6">
 				<div class="recipe-ingredient-form">
-					<p>材料</p><%= r.nested_fields_for :ingredients, url: '/api/v1/recipes', wrapper_tag: :row do |ingredient| %>
-					<div class="row">
-						<p class="col-md-2 text-left">順番</p><%= ingredient.text_field :sort_order, class: "col-md-8" %>
+					<p>材料</p><%= r.nested_fields_for :ingredients, url: '/api/v1/recipes', wrapper_tag: :div do |ingredient| %>
+					<div id="sortable_ingredients_list">
+						<div>
+							<div class="row">
+								<p class="col-md-2 text-left">順番</p><%= ingredient.text_field :sort_order, class: "col-md-8" %>
+							</div>
+							<div class="row">
+								<p class="col-md-2 text-left">材料名</p><%= ingredient.text_field :name, class: "col-md-8" %>
+							</div>
+							<div class="row">
+								<p class="col-md-2 text-left">分量</p><%= ingredient.text_field :quantity_and_unit, class: "col-md-8" %>
+							</div>
+							<%= ingredient.remove_nested_fields_link 'Delete', class: 'btn btn-danger', role: 'button' %>
+							<% end %>
+						</div>
 					</div>
-					<div class="row">
-						<p class="col-md-2 text-left">材料名</p><%= ingredient.text_field :name, class: "col-md-8" %>
-					</div>
-					<div class="row">
-						<p class="col-md-2 text-left">分量</p><%= ingredient.text_field :quantity_and_unit, class: "col-md-8" %>
-					</div>
-					<%= ingredient.remove_nested_fields_link 'Delete', class: 'btn btn-danger', role: 'button' %>
-					<% end %>
 					<%= r.add_nested_fields_link :ingredients, 'Add new', class: 'btn btn-primary', role: 'button' %>
 				</div>
 			</div>
 
 			<div class="col-md-6">
 				<div class="recipe-instructions-form">
-					<p>調理手順</p><%= r.nested_fields_for :instructions, url: '/api/v1/recipes', wrapper_tag: :row do |instruction| %>
-					<div class="row">
-						<p class="col-md-2 text-left">順序番号</p><%= instruction.text_field :sort_order , class: "col-md-8" %>
+					<p>調理手順</p><%= r.nested_fields_for :instructions, url: '/api/v1/recipes', wrapper_tag: :div do |instruction| %>
+					<div id="sortable_instructions_list">
+						<div>
+							<div class="row">
+								<p class="col-md-2 text-left">順序番号</p><%= instruction.text_field :sort_order , class: "col-md-8" %>
+							</div>
+							<div class="row">
+								<p class="col-md-2 text-left">手順詳細</p><%= instruction.text_field :body , class: "col-md-8" %>
+							</div>
+							<%= instruction.remove_nested_fields_link 'Delete', class: 'btn btn-danger', role: 'button' %>
+							<% end %>
+						</div>
 					</div>
-					<div class="row">
-						<p class="col-md-2 text-left">手順詳細</p><%= instruction.text_field :body , class: "col-md-8" %>
-					</div>
-					<%= instruction.remove_nested_fields_link 'Delete', class: 'btn btn-danger', role: 'button' %>
-					<% end %>
 					<%= r.add_nested_fields_link :instructions, 'Add new', class: 'btn btn-primary', role: 'button' %>
 				</div>
 			</div>
@@ -78,8 +86,34 @@
 			<% end %>
 		</div>
 
+		<!-- <div id="sortable_list3" class="list-group">
+    <div class="list-group-item">
+      <span class="badge">14</span>
+      <span class="glyphicon glyphicon-move" aria-hidden="true"></span>
+      Drag me by the handle
+    </div>
+    <div class="list-group-item">
+      <span class="badge">2</span>
+      <span class="glyphicon glyphicon-move" aria-hidden="true"></span>
+      You can also select text
+    </div>
+    <div class="list-group-item">
+      <span class="badge">1</span>
+      <span class="glyphicon glyphicon-move" aria-hidden="true"></span>
+      Best of both worlds!
+    </div>
+  </div> -->
+
 	</div>
 </div>
+
+<script>
+	var ing = document.getElementById('sortable_ingredients_list');
+	var sortable = Sortable.create(ing);
+
+	var inst = document.getElementById('sortable_instructions_list');
+	var sortable = Sortable.create(inst);
+</script>
 
 <style>
 form {
